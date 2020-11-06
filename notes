@@ -1,0 +1,6 @@
+sudo apt-get install xorg openbox rxvt vlc ratpoison pulseaudio python-gtk2 python-netifaces
+sudo pip install vlc
+sudo adduser mview
+# add to audio
+
+
