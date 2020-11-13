@@ -1,14 +1,14 @@
 # vlc-multiview
 VLC multiviewer in python
 
--- About --
+## About
 
 Just a "get it working" extention of a GPL's gtk/python/vlc example allowing multiple video (or audio) streams on a screen. 
 I mainly use it for local multicast RTP sources, but anything vlc will play should work
 
 ![Sample view](mv.png)
 
--- Config format --
+## Config format
 
 udp://@:1234 #Channel name
 
@@ -20,10 +20,13 @@ Middle click on a viewer to drop volume
 Right click on a viewer to increase volume
 
 
--- History --
+## History
 
 Originally envisaged to run on a pi with a touchscreen to monitor some broadcast feeds, but on testing it felt like VLC struggled to decode 16x30mbit multicast streams. Requirement went away so made no more progress. 
 
 Reused the code to take in 9x c. 5-10mbit unicast streams fitlet for covid-enabled remote monitoring, driven by a mouse, hence adding the volume control. 
 
+Based on some PyGTK code, I've not written much in the way of python before, and the only native GUI work I've done in the last 15 years is Java/Swing or Perl/TCL. Based on "gtk example/widget for VLC Python bindings" from the VideoLAN team (GPL2)
 
+## License
+GPL v3
