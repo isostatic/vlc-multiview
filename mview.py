@@ -299,12 +299,19 @@ class MultiVideoPlayer:
                 self.quit(event)
             if gtk.gdk.keyval_name(event.keyval).lower() == "s":
                 self.lblBox.edit(event)
-        if event.keyval > 47 and event.keyval < 58:
-            fnum = event.keyval-48
+        # press 0 to control box 10
+        if event.keyval == 48:
+            fnum = 9
             self.toggle_mute(self,fnum)
+        # press 1-9 to control box 1-9
+        if event.keyval > 48 and event.keyval < 58:
+            fnum = event.keyval-49
+            self.toggle_mute(self,fnum)
+        # press A-Z to control box 11-36
         if event.keyval > 64 and event.keyval < 92:
             fnum = event.keyval-55
             self.toggle_mute(self,fnum)
+        # press a-z to control box 11-36
         if event.keyval > 96 and event.keyval < 124:
             fnum = event.keyval-87
             self.toggle_mute(self,fnum)
@@ -316,25 +323,27 @@ class MultiVideoPlayer:
     def main(self, filenames):
         # Build main window
         self._allPlayers = []
-        maxCols = int(math.ceil(math.sqrt(len(filenames))))
+        maxCols = int(math.ceil(math.sqrt(len(filenames)-1)))
         window=gtk.Window()
         window.set_title("Multiviewer")
         mainbox=gtk.VBox()
         cur_col=0
         cur_row=0
-        filenamenum = 0
+        filenamenum = 1
         for _row in range(0, maxCols):
             _thisrow=gtk.HBox()
             for _col in range(0, maxCols):
-                if filenamenum >= len(filenames):
+                if filenamenum >= (len(filenames)):
                     blank = gtk.HBox()
                     blank.set_size_request(320, 200)
                     _thisrow.add(blank)
                     continue
                 fname = filenames[filenamenum]
                 letter = str(filenamenum)
-                if filenamenum > 9:
-                        letter = str(chr(filenamenum+55))
+                if filenamenum == 10:
+                        letter = str(0)
+                if filenamenum > 10:
+                        letter = str(chr(filenamenum+54))
                 vf = DecoratedVLCWidgetEBox()
                 flbl = re.sub(r'.*#', '', fname)
                 fname = re.sub(r' *#.*', '', fname)
@@ -377,6 +386,7 @@ if __name__ == '__main__':
         pass
     sources = [x.strip() for x in sources]
     sources = filter(None, sources)
+    sources.insert(0,"")
     p=MultiVideoPlayer()
     p.main(sources)
 
