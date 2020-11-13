@@ -65,8 +65,16 @@ class VLCWidget(gtk.DrawingArea):
     def toggle_volume(self, amount):
         origvol = self.player.audio_get_volume();
         newvol = origvol+amount
+        if (newvol < 0):
+            newvol = 0
         self.set_lbl("Volume: " + str(newvol))
         self.player.audio_set_volume(newvol);
+
+    def onscroll (self, widget, event):
+        if (event.direction == gtk.gdk.SCROLL_UP):
+            self.toggle_volume(10)
+        if (event.direction == gtk.gdk.SCROLL_DOWN):
+            self.toggle_volume(-10)
 
     def onclick (self, widget, event):
         if (event.button == 1):
@@ -74,7 +82,8 @@ class VLCWidget(gtk.DrawingArea):
         if (event.button == 2):
             self.toggle_volume(-20)
         if (event.button == 3):
-            self.toggle_volume(20)
+            self.toggle_volume(10)
+        print "Event button ", event.button
 
     def mute (self):
         self.player.audio_set_mute(1)
@@ -101,6 +110,7 @@ class VLCWidget(gtk.DrawingArea):
         self.set_size_request(320, 200)
         self.set_events(self.get_events() | gtk.gdk.BUTTON_PRESS_MASK )
         self.connect('button-press-event', self.onclick)
+        self.connect('scroll-event', self.onscroll)
 
     def set_lbl_data(self, _l, _n):
         self._orig_name = _n
